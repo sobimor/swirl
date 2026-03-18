@@ -1,0 +1,24 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install all workspace dependencies and build artifacts needed by swirl-ai.
+COPY . .
+ENV PUPPETEER_SKIP_DOWNLOAD=true
+RUN corepack enable
+RUN yarn install --frozen-lockfile
+RUN yarn workspace @getflip/swirl-tokens build
+RUN yarn workspace @getflip/swirl-icons build
+RUN yarn workspace @getflip/swirl-components build
+RUN yarn workspace @getflip/swirl-ai build:artifacts
+RUN yarn workspace @getflip/swirl-ai build:mcp
+
+ENV NODE_ENV=production
+ENV SWIRL_AI_TRANSPORT=http
+ENV PORT=3000
+ENV HOST=0.0.0.0
+ENV SWIRL_AI_HTTP_PATH=/mcp
+
+EXPOSE 3000
+
+CMD ["node", "packages/swirl-ai/dist/mcp/mcp.js"]

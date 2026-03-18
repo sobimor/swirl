@@ -1,0 +1,8 @@
+.git
+.cursor
+node_modules
+**/node_modules
+**/storybook-static
+**/.turbo
+**/dist
+**/coverage

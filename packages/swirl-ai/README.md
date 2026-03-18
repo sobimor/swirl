@@ -30,6 +30,40 @@ The package ships a Model Context Protocol server with 6 tools:
 }
 ```
 
+### Remote deployment (Docker)
+
+`swirl-ai` supports two transports:
+
+- `stdio` (default): local, process-spawned MCP usage.
+- `http`: remote MCP over Streamable HTTP (for internet/VPC access).
+
+For remote deployment, build and run with `SWIRL_AI_TRANSPORT=http`.
+
+This repository includes `Dockerfile.swirl-ai` at the repo root.
+
+#### Generic Docker setup
+
+1. Build with `Dockerfile.swirl-ai`.
+2. Run the container and expose port `3000` (or set `PORT` to your preferred port).
+3. Put your preferred reverse proxy/load balancer in front for public access if needed.
+
+Default runtime env vars used by the container:
+
+- `SWIRL_AI_TRANSPORT=http`
+- `PORT=3000`
+- `HOST=0.0.0.0`
+- `SWIRL_AI_HTTP_PATH=/mcp`
+
+Health endpoint:
+
+- `GET /healthz`
+
+MCP endpoint:
+
+- `/mcp` (or your custom `SWIRL_AI_HTTP_PATH`)
+
+Important: if you deploy this endpoint publicly without auth, anyone with the URL can call MCP tools.
+
 For local development, point to the built file directly:
 
 ```jsonc
@@ -42,6 +76,8 @@ For local development, point to the built file directly:
   }
 }
 ```
+
+This local setup is unchanged and continues to use `stdio`.
 
 ### Local testing
 
