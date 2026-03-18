@@ -1,0 +1,13 @@
+services:
+  swirl-ai-mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile.swirl-ai
+    environment:
+      SWIRL_AI_TRANSPORT: http
+      PORT: 3000
+      HOST: 0.0.0.0
+      SWIRL_AI_HTTP_PATH: /mcp
+    ports:
+      - "3902:3000"
+    restart: unless-stopped

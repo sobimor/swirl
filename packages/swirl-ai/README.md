@@ -40,12 +40,34 @@ The package ships a Model Context Protocol server with 6 tools:
 For remote deployment, build and run with `SWIRL_AI_TRANSPORT=http`.
 
 This repository includes `Dockerfile.swirl-ai` at the repo root.
+It also includes `docker-compose.swirl-ai.yml` for compose-based deployment.
 
 #### Generic Docker setup
 
 1. Build with `Dockerfile.swirl-ai`.
 2. Run the container and expose port `3000` (or set `PORT` to your preferred port).
 3. Put your preferred reverse proxy/load balancer in front for public access if needed.
+
+Example:
+
+```sh
+docker build -f Dockerfile.swirl-ai -t swirl-ai-mcp:local .
+docker run --rm -p 3902:3000 --name swirl-ai-mcp-local swirl-ai-mcp:local
+```
+
+#### Docker Compose setup
+
+Use the included compose file:
+
+```sh
+docker compose -f docker-compose.swirl-ai.yml up --build -d
+```
+
+Stop it with:
+
+```sh
+docker compose -f docker-compose.swirl-ai.yml down
+```
 
 Default runtime env vars used by the container:
 
